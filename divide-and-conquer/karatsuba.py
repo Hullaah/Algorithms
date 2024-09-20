@@ -1,4 +1,4 @@
-def karatsuba(x: int, y: int):
+def karatsuba(x: int, y: int) -> int:
     """
     Computes the product of x and y using a divide and conquer algorithm
 
