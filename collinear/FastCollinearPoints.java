@@ -19,17 +19,34 @@ public class FastCollinearPoints {
         for (int i = 0; i < points.length; i++) {
             Point p = points[i];
             Arrays.sort(points, p.slopeOrder());
-            int j = 0;
-            while (true) {
-                if (p.compareTo(points[j]) == 0) {
-                    j++;
-                    continue;
+            int j = 1, collinearCount = 1;
+            Point minimumPointOnLineSegment = p, maximumPointOnLineSegment = p;
+            for (int k = 1; k < points.length; k++) {
+                if (p.slopeTo(points[k]) == p.slopeTo(points[j])) {
+                    if (points[k].compareTo(minimumPointOnLineSegment) < 0)
+                        minimumPointOnLineSegment = points[k];
+                    if (points[k].compareTo(maximumPointOnLineSegment) > 0)
+                        maximumPointOnLineSegment = points[k];
+                    collinearCount++;
                 }
-                if (p.slopeTo(points[j]) != p.slopeTo(points[++j]))
-                    break;
+                else {
+                    if (collinearCount >= 4) {
+                        LineSegment nls = new LineSegment(minimumPointOnLineSegment,
+                                                          maximumPointOnLineSegment);
+                        boolean segmentExists = false;
+                        for (LineSegment s : ls) {
+                            if (s.toString().equals(nls.toString())) {
+                                segmentExists = true;
+                                break;
+                            }
+                        }
+                        if (!segmentExists)
+                            ls.add(nls);
+                    }
+                    collinearCount = 1;
+                    j = k + 1;
+                }
             }
-            if (j >= 4)
-                ls.add(new LineSegment(points[0], points[j - 1]));
         }
         lineSegments = ls.toArray(new LineSegment[0]);
     }
