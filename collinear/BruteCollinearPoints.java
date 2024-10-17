@@ -35,7 +35,7 @@ public class BruteCollinearPoints {
                     if (slopeA == Double.NEGATIVE_INFINITY || slopeB == Double.NEGATIVE_INFINITY) {
                         throw new IllegalArgumentException("points must not be repeated");
                     }
-                    if (slopeA == slopeB) {
+                    if (Double.compare(slopeA, slopeB) == 0) {
                         collinearPoints.add(points[k]);
                     }
                 }
@@ -93,7 +93,7 @@ public class BruteCollinearPoints {
     }
 
     public LineSegment[] segments() {
-        return lineSegments;
+        return lineSegments.clone();
     }
 
     public static void main(String[] args) {

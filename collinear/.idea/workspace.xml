@@ -10,6 +10,9 @@
       <change beforePath="$PROJECT_DIR$/BruteCollinearPoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/BruteCollinearPoints.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FastCollinearPoints.class" beforeDir="false" afterPath="$PROJECT_DIR$/FastCollinearPoints.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FastCollinearPoints.java" beforeDir="false" afterPath="$PROJECT_DIR$/FastCollinearPoints.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Point$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/Point$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/Point.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/Point.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,11 +107,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.FastCollinearPoints">
+  <component name="RunManager" selected="Application.BruteCollinearPoints">
     <configuration name="BruteCollinearPoints" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="BruteCollinearPoints" />
       <module name="Algorithms, Part I" />
-      <option name="PROGRAM_PARAMETERS" value="input6.txt" />
+      <option name="PROGRAM_PARAMETERS" value="horizontal25.txt" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -116,7 +119,7 @@
     <configuration name="FastCollinearPoints" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="FastCollinearPoints" />
       <module name="Algorithms, Part I" />
-      <option name="PROGRAM_PARAMETERS" value="input10000.txt" />
+      <option name="PROGRAM_PARAMETERS" value="horizontal25.txt" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -185,15 +188,15 @@
           <option name="timeStamp" value="4" />
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/FastCollinearPoints.java</url>
-          <line>100</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <condition expression="ls.size() == 2" language="JAVA" />
           <url>file://$PROJECT_DIR$/FastCollinearPoints.java</url>
           <line>18</line>
           <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/FastCollinearPoints.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

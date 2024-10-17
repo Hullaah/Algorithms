@@ -56,7 +56,7 @@ public class FastCollinearPoints {
     }
 
     public LineSegment[] segments() {
-        return lineSegments;
+        return lineSegments.clone();
     }
 
     private void constructLineSegment(LinkedList<Point[]> ls) {

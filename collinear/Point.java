@@ -16,6 +16,7 @@ public class Point implements Comparable<Point> {
 
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
+    private final Point enclosingPoint = this;
 
     /**
      * Initializes a new point.
@@ -66,6 +67,9 @@ public class Point implements Comparable<Point> {
         else if (this.x == that.x) {
             return Double.POSITIVE_INFINITY;
         }
+        else if (this.y == that.y) {
+            return +0;
+        }
         else {
             return (double) (that.y - this.y) / (that.x - this.x);
         }
@@ -95,6 +99,21 @@ public class Point implements Comparable<Point> {
         }
     }
 
+    private class PointComparator implements Comparator<Point> {
+        /**
+         * Compares two points based on their slope
+         *
+         * @param pointA first point
+         * @param pointB second point
+         * @return the value <tt> 0 </tt> if pointA is equal to pointB;
+         * a negative integer if pointA is less than pointB;
+         * and a positive integer if pointA is greater than pointB
+         */
+        public int compare(Point pointA, Point pointB) {
+            return Double.compare(enclosingPoint.slopeTo(pointA),
+                                  enclosingPoint.slopeTo(pointB));
+        }
+    }
 
     /**
      * Compares two points by the slope they make with this point.
@@ -103,22 +122,7 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        Point enclosingPoint = this;
-        return new Comparator<Point>() {
-            /**
-             * Compares two points based on their slope
-             *
-             * @param pointA first point
-             * @param pointB second point
-             * @return the value <tt> 0 </tt> if pointA is equal to pointB;
-             * a negative integer if pointA is less than pointB;
-             * and a positive integer if pointA is greater than pointB
-             */
-            public int compare(Point pointA, Point pointB) {
-                return Double.compare(enclosingPoint.slopeTo(pointA),
-                                      enclosingPoint.slopeTo(pointB));
-            }
-        };
+        return new PointComparator();
     }
 
 
