@@ -16,23 +16,41 @@ public class FastCollinearPoints {
 
     public FastCollinearPoints(Point[] points) {
         LinkedList<Point[]> ls = new LinkedList<>();
+        if (points == null)
+            throw new IllegalArgumentException("input array cannot be null");
+
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null)
+                throw new IllegalArgumentException("points cannot not be null");
+
+            for (int j = i + 1; j < points.length; j++) {
+                if (points[i].compareTo(points[j]) == 0) {
+                    throw new IllegalArgumentException("duplicate points not allowed");
+                }
+            }
+        }
+
         for (int i = 0; i < points.length; i++) {
             Point p = points[i];
-            Arrays.sort(points, p.slopeOrder());
+            Point[] pointsCopy = points.clone();
+
+            Arrays.sort(pointsCopy, p.slopeOrder());
             int j = 1, k = 1, collinearCount = 1;
             Point minimumPointOnLineSegment = p, maximumPointOnLineSegment = p;
-            while (k < points.length) {
-                if (p.slopeTo(points[k]) == p.slopeTo(points[j])) {
-                    if (points[k].compareTo(minimumPointOnLineSegment) < 0)
-                        minimumPointOnLineSegment = points[k];
-                    if (points[k].compareTo(maximumPointOnLineSegment) > 0)
-                        maximumPointOnLineSegment = points[k];
+            while (k < pointsCopy.length) {
+                if (Double.compare(p.slopeTo(pointsCopy[k]), p.slopeTo(pointsCopy[j])) == 0) {
+                    if (pointsCopy[k].compareTo(minimumPointOnLineSegment) < 0)
+                        minimumPointOnLineSegment = pointsCopy[k];
+                    if (pointsCopy[k].compareTo(maximumPointOnLineSegment) > 0)
+                        maximumPointOnLineSegment = pointsCopy[k];
                     collinearCount++;
-                    if (k == points.length - 1 && collinearCount >= 4) {
+
+                    if (k == pointsCopy.length - 1 && collinearCount >= 4) {
                         Point[] segment = { minimumPointOnLineSegment, maximumPointOnLineSegment };
                         if (!segmentExists(ls, segment))
                             ls.add(segment);
                     }
+                    
                     k++;
                 }
                 else {
@@ -41,10 +59,12 @@ public class FastCollinearPoints {
                         if (!segmentExists(ls, segment))
                             ls.add(segment);
                     }
+
                     collinearCount = 1;
-                    j = k;
                     maximumPointOnLineSegment = p;
                     minimumPointOnLineSegment = p;
+
+                    j = k;
                 }
             }
         }

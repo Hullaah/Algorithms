@@ -14,15 +14,15 @@ public class BruteCollinearPoints {
     private LineSegment[] lineSegments;
 
     public BruteCollinearPoints(Point[] points) {
-        if (points == null) {
-            throw new IllegalArgumentException("points cannot be null");
-        }
+        if (points == null)
+            throw new IllegalArgumentException("input array cannot be null");
+
         LinkedList<Point[]> ls = new LinkedList<>();
 
         for (int i = 0; i < points.length; i++) {
-            if (points[i] == null) {
-                throw new IllegalArgumentException("points must not be null");
-            }
+            if (points[i] == null)
+                throw new IllegalArgumentException("points cannot be null");
+
             for (int j = i + 1; j < points.length; j++) {
                 LinkedList<Point> collinearPoints = new LinkedList<>();
                 collinearPoints.add(points[i]);
@@ -32,9 +32,10 @@ public class BruteCollinearPoints {
                         continue;
                     double slopeA = points[i].slopeTo(points[k]);
                     double slopeB = points[i].slopeTo(points[j]);
-                    if (slopeA == Double.NEGATIVE_INFINITY || slopeB == Double.NEGATIVE_INFINITY) {
-                        throw new IllegalArgumentException("points must not be repeated");
-                    }
+
+                    if (slopeA == Double.NEGATIVE_INFINITY || slopeB == Double.NEGATIVE_INFINITY)
+                        throw new IllegalArgumentException("duplicate points not allowed");
+                    
                     if (Double.compare(slopeA, slopeB) == 0) {
                         collinearPoints.add(points[k]);
                     }
