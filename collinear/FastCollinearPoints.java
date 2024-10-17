@@ -12,43 +12,43 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 public class FastCollinearPoints {
-    private final LineSegment[] lineSegments;
+    private LineSegment[] lineSegments;
 
     public FastCollinearPoints(Point[] points) {
-        LinkedList<LineSegment> ls = new LinkedList<>();
+        LinkedList<Point[]> ls = new LinkedList<>();
         for (int i = 0; i < points.length; i++) {
             Point p = points[i];
             Arrays.sort(points, p.slopeOrder());
-            int j = 1, collinearCount = 1;
+            int j = 1, k = 1, collinearCount = 1;
             Point minimumPointOnLineSegment = p, maximumPointOnLineSegment = p;
-            for (int k = 1; k < points.length; k++) {
+            while (k < points.length) {
                 if (p.slopeTo(points[k]) == p.slopeTo(points[j])) {
                     if (points[k].compareTo(minimumPointOnLineSegment) < 0)
                         minimumPointOnLineSegment = points[k];
                     if (points[k].compareTo(maximumPointOnLineSegment) > 0)
                         maximumPointOnLineSegment = points[k];
                     collinearCount++;
+                    if (k == points.length - 1 && collinearCount >= 4) {
+                        Point[] segment = { minimumPointOnLineSegment, maximumPointOnLineSegment };
+                        if (!segmentExists(ls, segment))
+                            ls.add(segment);
+                    }
+                    k++;
                 }
                 else {
                     if (collinearCount >= 4) {
-                        LineSegment nls = new LineSegment(minimumPointOnLineSegment,
-                                                          maximumPointOnLineSegment);
-                        boolean segmentExists = false;
-                        for (LineSegment s : ls) {
-                            if (s.toString().equals(nls.toString())) {
-                                segmentExists = true;
-                                break;
-                            }
-                        }
-                        if (!segmentExists)
-                            ls.add(nls);
+                        Point[] segment = { minimumPointOnLineSegment, maximumPointOnLineSegment };
+                        if (!segmentExists(ls, segment))
+                            ls.add(segment);
                     }
                     collinearCount = 1;
-                    j = k + 1;
+                    j = k;
+                    maximumPointOnLineSegment = p;
+                    minimumPointOnLineSegment = p;
                 }
             }
         }
-        lineSegments = ls.toArray(new LineSegment[0]);
+        constructLineSegment(ls);
     }
 
     public int numberOfSegments() {
@@ -57,6 +57,23 @@ public class FastCollinearPoints {
 
     public LineSegment[] segments() {
         return lineSegments;
+    }
+
+    private void constructLineSegment(LinkedList<Point[]> ls) {
+        int i = 0;
+        lineSegments = new LineSegment[ls.size()];
+        for (Point[] p : ls) {
+            lineSegments[i++] = new LineSegment(p[0], p[1]);
+        }
+    }
+
+    private static boolean segmentExists(LinkedList<Point[]> s, Point[] x) {
+        for (Point[] p : s) {
+            if ((p[0].compareTo(x[0]) == 0 && p[1].compareTo(x[1]) == 0) ||
+                    (p[1].compareTo(x[0]) == 0 && p[0].compareTo(x[1]) == 0))
+                return true;
+        }
+        return false;
     }
 
     public static void main(String[] args) {

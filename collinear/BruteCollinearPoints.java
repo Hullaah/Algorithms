@@ -11,13 +11,13 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.LinkedList;
 
 public class BruteCollinearPoints {
-    private final LineSegment[] lineSegments;
+    private LineSegment[] lineSegments;
 
     public BruteCollinearPoints(Point[] points) {
         if (points == null) {
             throw new IllegalArgumentException("points cannot be null");
         }
-        LinkedList<LineSegment> lss = new LinkedList<>();
+        LinkedList<Point[]> ls = new LinkedList<>();
 
         for (int i = 0; i < points.length; i++) {
             if (points[i] == null) {
@@ -40,21 +40,15 @@ public class BruteCollinearPoints {
                     }
                 }
                 if (collinearPoints.size() >= 4) {
-                    LineSegment nls = new LineSegment(minimumPoint(collinearPoints),
-                                                      maximumPoint(collinearPoints));
-                    boolean segmentExists = false;
-                    for (LineSegment s : lss) {
-                        if (s.toString().equals(nls.toString())) {
-                            segmentExists = true;
-                            break;
-                        }
-                    }
-                    if (!segmentExists)
-                        lss.add(nls);
+                    Point[] segment = {
+                            minimumPoint(collinearPoints), maximumPoint(collinearPoints)
+                    };
+                    if (!segmentExists(ls, segment))
+                        ls.add(segment);
                 }
             }
         }
-        lineSegments = lss.toArray(new LineSegment[0]);
+        constructLineSegment(ls);
     }
 
     private static Point minimumPoint(LinkedList<Point> points) {
@@ -69,12 +63,29 @@ public class BruteCollinearPoints {
 
     private static Point maximumPoint(LinkedList<Point> points) {
         Point maximum = points.get(0);
-        for (int i = 0; i < points.size(); i++) {
+        for (int i = 1; i < points.size(); i++) {
             Point p = points.get(i);
             if (p.compareTo(maximum) > 0)
                 maximum = p;
         }
         return maximum;
+    }
+
+    private void constructLineSegment(LinkedList<Point[]> ls) {
+        int i = 0;
+        lineSegments = new LineSegment[ls.size()];
+        for (Point[] p : ls) {
+            lineSegments[i++] = new LineSegment(p[0], p[1]);
+        }
+    }
+
+    private static boolean segmentExists(LinkedList<Point[]> s, Point[] x) {
+        for (Point[] p : s) {
+            if ((p[0].compareTo(x[0]) == 0 && p[1].compareTo(x[1]) == 0) ||
+                    (p[1].compareTo(x[0]) == 0 && p[0].compareTo(x[1]) == 0))
+                return true;
+        }
+        return false;
     }
 
     public int numberOfSegments() {
