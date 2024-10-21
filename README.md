@@ -1,1 +1,1 @@
-# LearningAlgorithms
+# Algorithms

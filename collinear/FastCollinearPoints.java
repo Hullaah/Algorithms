@@ -24,6 +24,8 @@ public class FastCollinearPoints {
                 throw new IllegalArgumentException("points cannot not be null");
 
             for (int j = i + 1; j < points.length; j++) {
+                if (points[j] == null)
+                    throw new IllegalArgumentException("points cannot not be null");
                 if (points[i].compareTo(points[j]) == 0) {
                     throw new IllegalArgumentException("duplicate points not allowed");
                 }
@@ -50,7 +52,7 @@ public class FastCollinearPoints {
                         if (!segmentExists(ls, segment))
                             ls.add(segment);
                     }
-                    
+
                     k++;
                 }
                 else {
